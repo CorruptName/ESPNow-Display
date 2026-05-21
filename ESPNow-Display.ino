@@ -33,6 +33,8 @@ constexpr int TOUCH_PRESSURE_THRESHOLD = 200;
 constexpr unsigned long TOUCH_DEBOUNCE_MS = 180;
 constexpr unsigned long KEY_PRESS_FEEDBACK_MS = 80;
 constexpr int MAX_PAYLOAD_DISPLAY_LEN = 100;
+constexpr int MAC_STRING_LENGTH = 17;
+constexpr int MAC_BUFFER_SIZE = MAC_STRING_LENGTH + 1;
 
 struct Key {
   const char *label;
@@ -66,13 +68,13 @@ Key keys[] = {
 };
 
 String formatMac(const uint8_t *mac) {
-  char buffer[18];
+  char buffer[MAC_BUFFER_SIZE];
   snprintf(buffer, sizeof(buffer), "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
   return String(buffer);
 }
 
 bool parseMac(const String &text, uint8_t *macOut) {
-  if (text.length() != 17) {
+  if (text.length() != MAC_STRING_LENGTH) {
     return false;
   }
 
@@ -174,7 +176,7 @@ void appendKey(const char *label) {
     saveTargetMac();
     return;
   } else {
-    if (targetMacInput.length() < 17) {
+    if (targetMacInput.length() < MAC_STRING_LENGTH) {
       targetMacInput += label;
     }
   }
