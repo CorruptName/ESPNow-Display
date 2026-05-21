@@ -29,6 +29,11 @@
 #define TOUCH_RAW_Y_MAX 3800
 #endif
 
+constexpr int TOUCH_PRESSURE_THRESHOLD = 200;
+constexpr unsigned long TOUCH_DEBOUNCE_MS = 180;
+constexpr unsigned long KEY_PRESS_FEEDBACK_MS = 80;
+constexpr int MAX_PAYLOAD_DISPLAY_LEN = 100;
+
 struct Key {
   const char *label;
   int16_t x;
@@ -184,7 +189,7 @@ bool touchToScreenPoint(int16_t &sx, int16_t &sy) {
   }
 
   TS_Point p = touch.getPoint();
-  if (p.z < 200) {
+  if (p.z < TOUCH_PRESSURE_THRESHOLD) {
     return false;
   }
 
@@ -206,7 +211,7 @@ bool touchToScreenPoint(int16_t &sx, int16_t &sy) {
 }
 
 void processTouch() {
-  if (millis() - lastTouchMs < 180) {
+  if (millis() - lastTouchMs < TOUCH_DEBOUNCE_MS) {
     return;
   }
 
@@ -221,7 +226,7 @@ void processTouch() {
     if (x >= k.x && x <= (k.x + k.w) && y >= k.y && y <= (k.y + k.h)) {
       drawKey(k, TFT_BLUE, TFT_WHITE);
       appendKey(k.label);
-      delay(80);
+      delay(KEY_PRESS_FEEDBACK_MS);
       drawKey(k, TFT_DARKCYAN, TFT_WHITE);
       lastTouchMs = millis();
       return;
@@ -241,7 +246,7 @@ void onDataRecv(const esp_now_recv_info *recvInfo, const uint8_t *incomingData, 
   lastFrom = formatMac(recvInfo->src_addr);
 
   String payload;
-  for (int i = 0; i < len && i < 100; i++) {
+  for (int i = 0; i < len && i < MAX_PAYLOAD_DISPLAY_LEN; i++) {
     char c = static_cast<char>(incomingData[i]);
     payload += (isPrintable(c) ? c : '.');
   }
