@@ -20,7 +20,7 @@ Install these from Library Manager:
 
 ## Hardware notes
 Default hardware macros in the sketch are:
-- `TFT_ROTATION = 3` (portrait layout that fits the current UI on 4" CYD)
+- `TFT_ROTATION = 3` (default value used by this sketch for 4" CYD)
 - `TOUCH_CS_PIN = 33`
 - `TOUCH_IRQ_PIN = 36`
 
