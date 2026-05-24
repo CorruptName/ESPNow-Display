@@ -13,7 +13,7 @@
 #endif
 
 #ifndef TFT_ROTATION
-#define TFT_ROTATION 1
+#define TFT_ROTATION 3
 #endif
 
 #ifndef TOUCH_RAW_X_MIN

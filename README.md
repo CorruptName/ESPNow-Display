@@ -19,11 +19,13 @@ Install these from Library Manager:
 (ESP32 core already provides `WiFi.h`, `esp_now.h`, and `Preferences.h`.)
 
 ## Hardware notes
-Default touch pin macros in the sketch are:
+Default hardware macros in the sketch are:
+- `TFT_ROTATION = 3` (default value used by this sketch for 4" CYD)
 - `TOUCH_CS_PIN = 33`
 - `TOUCH_IRQ_PIN = 36`
 
 If your CYD variant uses different pins or calibration values, adjust these compile-time macros in the sketch:
+- `TFT_ROTATION`
 - `TOUCH_CS_PIN`, `TOUCH_IRQ_PIN`
 - `TOUCH_RAW_X_MIN`, `TOUCH_RAW_X_MAX`
 - `TOUCH_RAW_Y_MIN`, `TOUCH_RAW_Y_MAX`
